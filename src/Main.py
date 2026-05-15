@@ -142,9 +142,9 @@ def jalankan_undo(bst_obj):
 class GraphPrereq:
     """DAG prasyarat matakuliah: edge A->B berarti A prasyarat B."""
     def __init__(self):
-        self.adj = {}     # Menyimpan adjacency list (kode_mk -> [list_kode_tujuan])
-        self.matkul = {}  # Menyimpan katalog (kode -> nama_matkul)
-        self.in_degree = {} # Penting untuk Kahn's Algorithm
+        self.adj = {}     
+        self.matkul = {}  
+        self.in_degree = {}
 
     def tambah_matkul(self, kode, nama):
         """Menambahkan mata kuliah ke dalam graph."""
