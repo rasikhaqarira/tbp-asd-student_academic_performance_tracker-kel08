@@ -216,3 +216,12 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+*.csv
+*.pkl
+data/large_*
