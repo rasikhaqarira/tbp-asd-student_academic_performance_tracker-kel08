@@ -9,7 +9,7 @@ class BSTMahasiswa:
         self.root = None
 
     def insert(self, mhs):
-        from src.data_structures import TranskripNilai
+        from src.data_structures.dll import TranskripNilai
         new_node = BSTNodeMhs(mhs)
         new_node.transkripsi = TranskripNilai()
         
@@ -69,4 +69,3 @@ class BSTMahasiswa:
                 if low <= node.mhs.ipk <= high:
                     res.append(node.mhs)
         return res
-
