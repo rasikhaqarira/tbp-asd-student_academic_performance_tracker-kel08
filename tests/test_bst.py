@@ -18,8 +18,8 @@ def test_pencarian_dan_range_bst():
     db = BSTMahasiswa()
     mod2 = ModulDatabase(db)
     
-    m1 = Mahasiswa("210001", "Budi", "Elektro", 2021)
-    m2 = Mahasiswa("210002", "Santi", "Informatika", 2021)
+    m1 = Mahasiswa("21006001", "Budi", "ELT", 2021)
+    m2 = Mahasiswa("21006002", "Santi", "INF", 2021)
     
     m1.ipk = 3.2
     m2.ipk = 3.8
@@ -28,11 +28,11 @@ def test_pencarian_dan_range_bst():
     db.insert(m2)
     
     # 1. Tes Fitur Search NIM
-    res = mod2.cari_by_nim("210002")
+    res = mod2.cari_by_nim("21006002")
     assert res.mhs.nama == "Santi"
-    print(f"Cari NIM 210002: Ditemukan ({res.mhs.nama}) | Status: PASSED")
+    print(f"Cari NIM 21006002: Ditemukan ({res.mhs.nama}) | Status: PASSED")
     
-    # 2. Tes Fitur Range IPK (Mencari yang IPK-nya 3.0 s.d 3.5 -> Seharusnya cuma Budi)
+    # 2. Tes Fitur Range IPK
     mhs_filter = mod2.filter_berdasarkan_rentang_ipk(3.0, 3.5)
     assert len(mhs_filter) == 1
     assert mhs_filter[0].nama == "Budi"
