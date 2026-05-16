@@ -36,11 +36,11 @@ class TranskripNilai:
         self._size -= 1
         return data
 
-    def semester_ke(self, sem):
+    def filter_semester(self, k):
         res = []
         curr = self.head
         while curr:
-            if curr.data.semester == sem:
+            if curr.data.semester == k:
                 res.append(curr.data)
             curr = curr.next
         return res
