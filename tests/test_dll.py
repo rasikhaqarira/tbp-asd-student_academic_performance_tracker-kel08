@@ -43,3 +43,6 @@ def test_kalkulasi_ipk():
     
     assert ipk_akhir == 3.5
     print(f"Hasil IPK: {ipk_akhir} | Status: PASSED")
+
+if __name__ == "__main__":
+    test_kalkulasi_ipk()
