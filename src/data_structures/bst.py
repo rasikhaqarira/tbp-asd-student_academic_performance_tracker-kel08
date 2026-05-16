@@ -23,12 +23,12 @@ class BSTMahasiswa:
                 if not curr.left:
                     curr.left = new_node
                     break
-                curr = curr.left  # Pindah ke kiri
+                curr = curr.left
             else:
                 if not curr.right:
                     curr.right = new_node
                     break
-                curr = curr.right # Pindah ke kanan
+                curr = curr.right
 
     def search(self, nim):
         curr = self.root
@@ -42,11 +42,30 @@ class BSTMahasiswa:
         def _traverse(node):
             if node:
                 _traverse(node.left)
-                res.append(node.mhs)
+                res.append(node)
                 _traverse(node.right)
         _traverse(self.root)
         return res
     
-     # Menambah alias agar modul_2 bisa memanggil dengan nama ini
     def get_inorder_list(self):
-        return self.inorder()
+        return [node.mhs for node in self.inorder()]
+    
+    def update_ipk(self, nim, grade_map):
+        """Mencari node mahasiswa dan memicu hitung ulang IPK langsung dari DLL miliknya."""
+        node = self.search(nim)
+        if node and node.transkripsi:
+            ipk_baru = node.transkripsi.hitung_ipk(grade_map)
+            node.mhs.ipk = ipk_baru
+            return ipk_baru
+        return 0.0
+
+    def range_ipk(self, low, high):
+        """Mengembalikan daftar objek mahasiswa yang nilai IPK-nya berada di antara rentang [low, high]."""
+        res = []
+        all_nodes = self.inorder() 
+        
+        for node in all_nodes:
+            if hasattr(node.mhs, 'ipk'):
+                if low <= node.mhs.ipk <= high:
+                    res.append(node.mhs)
+        return res
