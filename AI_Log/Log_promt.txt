@@ -1,0 +1,387 @@
+jelaskan implementaasi apa yang dipakai pada modul 5
+
+Pada **Modul 5 (Ranking & Sorting IPK)** untuk Topik 8 (_Student Academic Performance Tracker_), implementasi yang digunakan berfokus pada **manipulasi pointer secara murni (_from scratch_)** untuk mengurutkan data dan menyusun laporan statistik.
+
+Berikut adalah rincian komponen implementasi yang dipakai di Modul 5:
+
+### 1. Struktur Data Pondasi: Doubly Linked List (DLL)
+
+Modul 5 tidak menggunakan struktur data bawaan Python seperti `list` atau `array` biasa untuk proses _sorting_-nya. Objek database mahasiswa yang diurutkan bertipe `MahasiswaDLL`.
+
+- Setiap elemen data dibungkus dalam node (`DLLNode`) yang memiliki dua pointer fisik, yaitu `.next` (menunjuk ke mahasiswa setelahnya) dan `.prev` (menunjuk ke mahasiswa sebelumnya).
+- Semua proses pengurutan dilakukan dengan cara **memutus dan menyambung ulang pointer-pointer** tersebut di dalam memori komputer, bukan dengan menukar nilai atau isi datanya.
+
+### 2. Algoritma Pengurutan Utama: Merge Sort ($O(n \log n)$)
+
+Sesuai dengan instruksi wajib pada panduan proyek, fungsi pengurutan utama (`urutkan_dan_ranking`) menggunakan algoritma **Merge Sort** yang bekerja secara _descending_ (dari IPK terbesar ke terkecil) untuk menyusun peringkat mahasiswa.
+
+- **Teknik Split:** Menggunakan metode _Slow dan Fast Pointer_ untuk menemukan titik tengah (_middle node_) dari Linked List secara efisien sebelum memotong list menjadi dua bagian.
+- **Teknik Merge:** Menggabungkan kembali dua sub-list ganda yang terpisah dengan mengatur ulang pointer `.next` dan `.prev` agar elemen yang memiliki IPK lebih tinggi berada di depan.
+
+### 3. Algoritma Pengurutan Pembanding: Insertion Sort ($O(n^2)$)
+
+Sebagai komponen eksperimen pembanding, diimplementasikan juga algoritma **Insertion Sort** yang bekerja langsung pada struktur Doubly Linked List.
+
+- Algoritma ini mengisolasi satu per satu node dari Linked List yang belum terurut, lalu mencarikan posisi yang tepat pada sub-list baru yang sudah terurut (`_sorted_insert`) dengan cara menelusuri pointer satu demi satu dari arah depan (_head_).
+
+### 4. Modul Analisis: Agregasi Distribusi Menggunakan Dictionary
+
+Untuk memenuhi instruksi laporan sebaran nilai, implementasi menggunakan teknik traversal (penelusuran) linear dari _head_ sampai _tail_ pada Linked List yang sudah terurut.
+
+- Sepanjang proses penelusuran, data IPK mahasiswa dibaca dan dikelompokkan ke dalam struktur data pencatatan internal berbasis **Dictionary** (`prodi_sums`, `prodi_counts`, `angkatan_sums`, `angkatan_counts`).
+- Hasil akhir dari dictionary tersebut digunakan untuk menghitung nilai rata-rata (_mean_) IPK yang kemudian dicetak berdasarkan kategori **Program Studi** dan **Tahun Angkatan**.
+
+### 5. Pengujian Kinerja: Simulasi Runtime dengan `time.perf_counter()`
+
+Untuk keperluan bab hasil eksperimen di laporan PDF kelompok, modul ini mengimplementasikan fungsi pengujian performa (_benchmark_). Fungsi ini menghasilkan data tiruan (_mock data_) mahasiswa dengan variasi ukuran $N = 20, 60, 200$, lalu menghitung waktu eksekusi masing-masing algoritma dalam satuan milidetik (ms) menggunakan fungsi presisi tinggi `time.perf_counter()`.Pada **Modul 5 (Ranking & Sorting IPK)** untuk Topik 8 (_Student Academic Performance Tracker_), implementasi yang digunakan berfokus pada **manipulasi pointer secara murni (_from scratch_)** untuk mengurutkan data dan menyusun laporan statistik.
+
+Berikut adalah rincian komponen implementasi yang dipakai di Modul 5:
+
+### 1. Struktur Data Pondasi: Doubly Linked List (DLL)
+
+Modul 5 tidak menggunakan struktur data bawaan Python seperti `list` atau `array` biasa untuk proses _sorting_-nya. Objek database mahasiswa yang diurutkan bertipe `MahasiswaDLL`.
+
+- Setiap elemen data dibungkus dalam node (`DLLNode`) yang memiliki dua pointer fisik, yaitu `.next` (menunjuk ke mahasiswa setelahnya) dan `.prev` (menunjuk ke mahasiswa sebelumnya).
+- Semua proses pengurutan dilakukan dengan cara **memutus dan menyambung ulang pointer-pointer** tersebut di dalam memori komputer, bukan dengan menukar nilai atau isi datanya.
+
+### 2. Algoritma Pengurutan Utama: Merge Sort ($O(n \log n)$)
+
+Sesuai dengan instruksi wajib pada panduan proyek, fungsi pengurutan utama (`urutkan_dan_ranking`) menggunakan algoritma **Merge Sort** yang bekerja secara _descending_ (dari IPK terbesar ke terkecil) untuk menyusun peringkat mahasiswa.
+
+- **Teknik Split:** Menggunakan metode _Slow dan Fast Pointer_ untuk menemukan titik tengah (_middle node_) dari Linked List secara efisien sebelum memotong list menjadi dua bagian.
+- **Teknik Merge:** Menggabungkan kembali dua sub-list ganda yang terpisah dengan mengatur ulang pointer `.next` dan `.prev` agar elemen yang memiliki IPK lebih tinggi berada di depan.
+
+### 3. Algoritma Pengurutan Pembanding: Insertion Sort ($O(n^2)$)
+
+Sebagai komponen eksperimen pembanding, diimplementasikan juga algoritma **Insertion Sort** yang bekerja langsung pada struktur Doubly Linked List.
+
+- Algoritma ini mengisolasi satu per satu node dari Linked List yang belum terurut, lalu mencarikan posisi yang tepat pada sub-list baru yang sudah terurut (`_sorted_insert`) dengan cara menelusuri pointer satu demi satu dari arah depan (_head_).
+
+### 4. Modul Analisis: Agregasi Distribusi Menggunakan Dictionary
+
+Untuk memenuhi instruksi laporan sebaran nilai, implementasi menggunakan teknik traversal (penelusuran) linear dari _head_ sampai _tail_ pada Linked List yang sudah terurut.
+
+- Sepanjang proses penelusuran, data IPK mahasiswa dibaca dan dikelompokkan ke dalam struktur data pencatatan internal berbasis **Dictionary** (`prodi_sums`, `prodi_counts`, `angkatan_sums`, `angkatan_counts`).
+- Hasil akhir dari dictionary tersebut digunakan untuk menghitung nilai rata-rata (_mean_) IPK yang kemudian dicetak berdasarkan kategori **Program Studi** dan **Tahun Angkatan**.
+
+### 5. Pengujian Kinerja: Simulasi Runtime dengan `time.perf_counter()`
+
+Untuk keperluan bab hasil eksperimen di laporan PDF kelompok, modul ini mengimplementasikan fungsi pengujian performa (_benchmark_). Fungsi ini menghasilkan data tiruan (_mock data_) mahasiswa dengan variasi ukuran $N = 20, 60, 200$, lalu menghitung waktu eksekusi masing-masing algoritma dalam satuan milidetik (ms) menggunakan fungsi presisi tinggi `time.perf_counter()`.
+
+jelaskan cara kerja setiap poin implementasi dan jelaskan dengan bahasa bayi
+
+Biar gampang dibayangkan, kita ibaratkan **Linked List** itu seperti **kereta mainan Lego** yang gerbong-gerbongnya bisa kamu lepas-pasang pakai magnet. Setiap gerbong itu isinya data satu orang mahasiswa.
+
+Begini cara kerja setiap bagiannya kalau dijelaskan pakai bahasa yang super simpel:
+
+### 1. Doubly Linked List (DLL) – Kereta Dua Magnet
+
+- **Cara Kerjanya:** Di kereta biasa, magnetnya cuma ada di belakang untuk menarik gerbong lain. Tapi di _Doubly Linked List_, setiap gerbong dipasang **dua magnet**: satu di depan (`prev`) dan satu di belakang (`next`).
+
+- **Bahasa Bayinya:** Kereta mainan ini hebat banget! Kamu bisa berjalan dari gerbong paling depan sampai ke belakang, terus bisa mundur lagi ke depan tanpa perlu muter balik, karena gerbongnya saling pegangan tangan depan-belakang. Kalau mau nambah mahasiswa baru, tinggal tempel gerbong baru di paling ekor.
+
+### 2. Singly Linked List (SLL) – Antrean Main Perosotan (Queue)
+
+- **Cara Kerjanya:** Ini adalah antrean _Queue_ (baca: kyu) yang memakai sistem FIFO (_First-In, First-Out_). Setiap node cuma punya **satu magnet** yang menunjuk ke arah depan (`next`).
+
+- **Bahasa Bayinya:** Ini seperti kamu dan teman-temanmu lagi antre mau main perosotan. Siapa yang datang paling pertama, dia yang boleh meluncur duluan. Yang baru datang tidak boleh nyodok, harus berbaris paling belakang. Magnetnya cuma satu arah, jadi antreannya cuma bisa maju kedepan, tidak bisa mundur.
+
+### 3. Merge Sort – Bagi Dua lalu Satukan
+
+- **Cara Kerjanya:** Ini cara mengurutkan mainan dari yang paling besar ke yang paling kecil memakai taktik _Divide and Conquer_ (potong-potong lalu gabung).
+
+- **Bahasa Bayinya:** Kamu punya sekeranjang balok Lego yang berantakan. Nah, cara merapikannya: bagi dua dulu baloknya jadi kelompok kiri dan kelompok kanan. Potong terus sampai sisa satu-satu. Setelah jadi kecil-kecil, baru kamu pasang lagi satu per satu sambil dilihat: "Mana yang lebih besar? Taruh di depan!". Kereta Legomu sekarang jadi rapi berurutan dari yang paling besar ke paling kecil.
+
+### 4. Insertion Sort – Menyelipkan Kartu Mainan
+
+- **Cara Kerjanya:** Ini cara mengurutkan mainan secara langsung satu per satu di tempat.
+
+- **Bahasa Bayinya:** Ini mirip seperti kamu sedang memegang kartu mainan di tangan. Kamu ambil satu kartu baru yang acak, terus kamu lirik kartu-kartu yang sudah rapi di tanganmu. Kamu cari tempat yang pas, lalu **kamu selipkan** kartu baru itu di tengah-tengah kartu yang pas. Kamu lakukan itu terus sampai semua kartu acak habis diselipkan.
+
+### 5. Hitung Distribusi – Mengelompokkan Mainan (Dictionary)
+
+- **Cara Kerjanya:** Ini proses membuat laporan rata-rata IPK berdasarkan kategori jurusan (prodi) dan tahun angkatan mahasiswa.
+
+- **Bahasa Bayinya:** Bayangkan kamu punya banyak mainan robot dan mobil-mobilan dari tahun 2025 dan 2026. Kamu pisahkan: semua robot dikumpul di ember robot, semua mobil di ember mobil. Setelah dikelompokkan sesuai jenis dan tahunnya, baru kamu hitung jumlah nilainya masing-masing ember biar tahu ember mana yang isinya paling banyak.
+
+berikan contoh codingan python setiap implementasi misal dll contoh code python nya gimana
+
+Berikut adalah contoh contoh kodingan Python murni (_from scratch_) untuk setiap bagian yang dipakai di Modul 5. Kodenya ditulis sederhana, tanpa komentar tanda pagar (`#`), dan menggunakan gaya penulisan biasa agar terlihat natural.
+
+### 1. Doubly Linked List (DLL)
+
+```python
+class DLLNode:
+    def __init__(self, mahasiswa):
+        self.mahasiswa = mahasiswa
+        self.prev = None
+        self.next = None
+
+class MahasiswaDLL:
+    def __init__(self):
+        self.head = None
+        self.tail = None
+
+    def tambah_di_akhir(self, mahasiswa):
+        new_node = DLLNode(mahasiswa)
+        if self.head is None:
+            self.head = new_node
+            self.tail = new_node
+        else:
+            new_node.prev = self.tail
+            self.tail.next = new_node
+            self.tail = new_node
+
+```
+
+### 2. Singly Linked List (SLL) - Queue Pembantu
+
+```python
+class QueueNode:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+class PureQueue:
+    def __init__(self):
+        self.head = None
+        self.tail = None
+
+    def enqueue(self, data):
+        new_node = QueueNode(data)
+        if self.tail is None:
+            self.head = new_node
+            self.tail = new_node
+        else:
+            self.tail.next = new_node
+            self.tail = new_node
+
+    def dequeue(self):
+        if self.head is None:
+            return None
+        temp = self.head
+        self.head = self.head.next
+        if self.head is None:
+            self.tail = None
+        return temp.data
+
+```
+
+### 3. Merge Sort DLL
+
+```python
+class MergeSortDLL:
+    def sort(self, head):
+        if not head or not head.next:
+            return head
+
+        mid = self._get_middle(head)
+        after_mid = mid.next
+        mid.next = None
+        if after_mid:
+            after_mid.prev = None
+
+        left = self.sort(head)
+        right = self.sort(after_mid)
+
+        return self._merge(left, right)
+
+    def _get_middle(self, head):
+        slow = head
+        fast = head
+        while fast.next and fast.next.next:
+            slow = slow.next
+            fast = fast.next.next
+        return slow
+
+    def _merge(self, a, b):
+        if not a: return b
+        if not b: return a
+
+        if a.mahasiswa.ipk >= b.mahasiswa.ipk:
+            result = a
+            result.next = self._merge(a.next, b)
+            if result.next:
+                result.next.prev = result
+        else:
+            result = b
+            result.next = self._merge(a, b.next)
+            if result.next:
+                result.next.prev = result
+        return result
+
+```
+
+### 4. Insertion Sort DLL
+
+```python
+class InsertionSortDLL:
+    def sort(self, head):
+        if not head or not head.next:
+            return head
+
+        sorted_head = None
+        current = head
+        while current:
+            next_node = current.next
+            current.prev = None
+            current.next = None
+            sorted_head = self._sorted_insert(sorted_head, current)
+            current = next_node
+        return sorted_head
+
+    def _sorted_insert(self, sorted_head, new_node):
+        if not sorted_head:
+            return new_node
+
+        if new_node.mahasiswa.ipk >= sorted_head.mahasiswa.ipk:
+            new_node.next = sorted_head
+            sorted_head.prev = new_node
+            return new_node
+
+        current = sorted_head
+        while current.next and current.next.mahasiswa.ipk > new_node.mahasiswa.ipk:
+            current = current.next
+
+        new_node.next = current.next
+        if current.next:
+            current.next.prev = new_node
+        current.next = new_node
+        new_node.prev = current
+        return sorted_head
+
+```
+
+### 5. Hitung Distribusi (Dictionary)
+
+```python
+def hitung_distribusi(dll_obj):
+    current = dll_obj.head
+    if not current:
+        return
+
+    prodi_sums = {}
+    prodi_counts = {}
+
+    while current:
+        m = current.mahasiswa
+        prodi_sums[m.prodi] = prodi_sums.get(m.prodi, 0.0) + m.ipk
+        prodi_counts[m.prodi] = prodi_counts.get(m.prodi, 0) + 1
+        current = current.next
+
+    for prd in prodi_sums:
+        avg = prodi_sums[prd] / prodi_counts[prd]
+        print(f"Prodi {prd} Rata-rata IPK: {avg:.2f}")
+
+```
+
+jelaskan per poin isi coding dan funsinya
+
+Berikut adalah penjelasan dari isi baris kode (_coding_) dan fungsinya masing-masing untuk setiap bagian implementasi pada Modul 5:
+
+### 1. Doubly Linked List (DLL)
+
+Bagian ini bertugas membangun gerbong data dan jalur kereta dua arah untuk menyimpan data mahasiswa secara linear.
+
+- **`class DLLNode:`**
+  Berfungsi sebagai kerangka acuan untuk membuat satu gerbong data (_node_). Setiap gerbong akan memuat objek data asli mahasiswa.
+- **`self.mahasiswa = mahasiswa`**
+  Berfungsi untuk menyimpan muatan data utama, yaitu data objek mahasiswa (NIM, nama, prodi, angkatan, IPK) ke dalam gerbong tersebut.
+- **`self.prev = None`**
+  Berfungsi sebagai magnet penghubung ke arah belakang (menunjuk ke node sebelum dirinya). Diinisialisasi dengan `None` karena saat baru dibuat belum digandengkan.
+- **`self.next = None`**
+  Berfungsi sebagai magnet penghubung ke arah depan (menunjuk ke node setelah dirinya).
+- **`class MahasiswaDLL:`**
+  Berfungsi sebagai pengelola rangkaian kereta (_database linear_). Class ini mengatur aliran masuk dan pembacaan seluruh gerbong.
+- **`self.head = None` dan `self.tail = None**`
+Berfungsi sebagai penanda ujung gerbong pertama (`head`) dan ujung gerbong paling akhir (`tail`) pada rangkaian kereta.
+- **`def tambah_di_akhir(self, mahasiswa):`**
+  Fungsi untuk menambahkan mahasiswa baru ke urutan paling belakang rangkaian kereta (_append_) dengan kompleksitas $O(1)$.
+
+- **`if self.head is None:`**
+  Kondisi untuk mengecek apakah rangkaian kereta masih kosong. Jika kosong, gerbong baru otomatis langsung menjadi `head` sekaligus `tail`.
+- **`else:`**
+  Kondisi jika sudah ada gerbong lain. Kode di bawahnya berfungsi menyambungkan magnet depan gerbong baru ke `tail` lama, mengarahkan `tail.next` ke gerbong baru, lalu menggeser status penanda `tail` ke gerbong yang paling baru.
+
+---
+
+### 2. Singly Linked List (SLL) - Queue Pembantu
+
+Bagian ini berfungsi mengatur barisan antrean satu arah yang disiplin, di mana data yang pertama kali masuk wajib keluar pertama kali (FIFO).
+
+- **`class QueueNode:`**
+  Berfungsi sebagai kerangka untuk membungkus data yang masuk ke dalam antrean.
+- **`self.next = None`**
+  Berfungsi sebagai satu-satunya magnet penunjuk arah, yaitu hanya menunjuk ke orang di belakangnya (satu arah ke depan rangkaian).
+- **`class PureQueue:`**
+  Berfungsi sebagai pengatur jalurnya antrean utama dari depan hingga belakang tanpa bantuan library bawaan.
+- **`def enqueue(self, data):`**
+  Fungsi untuk memasukkan data baru ke barisan antrean paling belakang. Logika pengerjaan pointer-nya mirip dengan _append_ pada DLL, namun hanya memanipulasi satu pointer `.next`.
+
+- **`def dequeue(self):`**
+  Fungsi untuk mengeluarkan dan mengambil data dari barisan paling depan (`head`).
+
+- **`if self.head is None: return None`**
+  Kondisi pengaman jika antrean kosong, sehingga program tidak _error_ saat dipanggil.
+- **`temp = self.head` dan `self.head = self.head.next**`
+Berfungsi menyimpan data yang keluar ke variabel sementara (`temp`), lalu memindahkan posisi penanda pintu depan (`head`) ke urutan antrean kedua di belakangnya.
+
+---
+
+### 3. Merge Sort DLL
+
+Bagian ini berfungsi sebagai mesin utama untuk mengurutkan rangkaian kereta mahasiswa dari IPK tertinggi ke terendah ($O(n \log n)$).
+
+- **`def sort(self, head):`**
+  Fungsi rekursif utama untuk memotong-motong rangkaian kereta menjadi bagian-bagian kecil.
+- **`if not head or not head.next: return head`**
+  _Base case_ atau kondisi berhenti rekursi. Jika gerbong tinggal sisa satu atau kosong, maka data tidak perlu dipotong lagi.
+- **`mid = self._get_middle(head)`**
+  Berfungsi memanggil fungsi pembantu untuk mencari letak gerbong yang berada tepat di tengah rangkaian kereta.
+- **`after_mid = mid.next` dan `mid.next = None**`Berfungsi menyimpan gerbong kanan ke variabel baru, lalu memutuskan hubungan pointer`.next` pada gerbong tengah agar rangkaian kereta resmi terbelah menjadi dua jalur terpisah (kiri dan kanan).
+- **`left = self.sort(head)` dan `right = self.sort(after_mid)**`
+  Proses rekursif memotong kembali bagian kiri dan kanan sampai gerbongnya terpisah satu-satu.
+- **`return self._merge(left, right)`**
+  Berfungsi menyatukan kembali potongan-potongan gerbong secara terurut.
+- **`def _get_middle(self, head):`**
+  Fungsi mencari titik tengah menggunakan teknik dua pelari (`slow` jalan satu langkah, `fast` jalan dua langkah). Saat pelari `fast` sampai di ujung akhir, pelari `slow` otomatis berada tepat di tengah rangkaian.
+- **`def _merge(self, a, b):`**
+  Fungsi untuk menggabungkan dua rangkaian gerbong. Fungsi ini membandingkan `a.mahasiswa.ipk >= b.mahasiswa.ipk`. Jika benar, gerbong `a` ditaruh di depan, lalu magnet `.prev` dan `.next` diatur ulang agar rangkaian menyatu secara kokoh.
+
+---
+
+### 4. Insertion Sort DLL
+
+Bagian ini berfungsi sebagai algoritma pembanding yang mengurutkan data dengan cara mencabut gerbong satu per satu dan menyelipkannya ke posisi yang pas ($O(n^2)$).
+
+- **`while current:`**
+  Perulangan untuk menelusuri seluruh gerbong kereta dari depan sampai habis.
+- **`current.prev = None` dan `current.next = None**`
+  Berfungsi mencabut satu gerbong aktif dari rangkaian aslinya dengan cara menghapus total semua magnet penghubungnya (diisolasi sementara).
+- **`sorted_head = self._sorted_insert(sorted_head, current)`**
+  Berfungsi memanggil fungsi penyisipan untuk menyelipkan gerbong yang dicabut tadi ke dalam barisan rel baru (`sorted_head`) yang sudah rapi.
+- **`def _sorted_insert(self, sorted_head, new_node):`**
+  Fungsi inti untuk mencari tempat selipan yang pas.
+- **`if new_node.mahasiswa.ipk >= sorted_head.mahasiswa.ipk:`**
+  Kondisi jika gerbong baru ternyata punya IPK paling besar di kelas. Maka gerbong ini langsung dikaitkan di depan pintu utama (`sorted_head` baru).
+- **`while current.next and current.next.mahasiswa.ipk > new_node.mahasiswa.ipk:`**
+  Perulangan untuk berjalan menelusuri rel rapi, gunanya mencari di mana posisi gerbong yang nilai IPK-nya mulai lebih kecil dari gerbong baru kita.
+- **`new_node.next = current.next` dst.**
+  Serangkaian kode penataan ulang jangkar magnet `.next` dan `.prev` untuk mengunci posisi gerbong baru di antara gerbong pembatas kiri dan pembatas kanan.
+
+---
+
+### 5. Hitung Distribusi (Dictionary)
+
+Bagian ini berfungsi membaca isi rangkaian kereta yang sudah rapi untuk memetakan statistik laporan sebaran nilai rata-rata.
+
+- **`prodi_sums = {}` dan `prodi_counts = {}**`
+Berfungsi membuat wadah kosong (*dictionary*) untuk menampung total penjumlahan nilai IPK (`sums`) dan total jumlah kepala mahasiswa (`counts`) per jurusan prodi.
+- **`while current:`**
+  Berfungsi menyuruh program berjalan melintasi gerbong satu per satu dari depan sampai buntut rel kereta untuk mencatat data.
+- **`prodi_sums[m.prodi] = prodi_sums.get(m.prodi, 0.0) + m.ipk`**
+  Berfungsi mengambil data total nilai IPK lama di prodi tersebut, lalu menambahkannya dengan nilai IPK milik mahasiswa yang sedang diperiksa saat ini.
+- **`prodi_counts[m.prodi] = prodi_counts.get(m.prodi, 0) + 1`**
+  Berfungsi menambah hitungan jumlah kepala mahasiswa di jurusan tersebut (ditambah 1).
+- **`avg = prodi_sums[prd] / prodi_counts[prd]`**
+  Berfungsi menghitung nilai rata-rata matematika biasa, yaitu membagi total nilai IPK yang terkumpul di dalam ember prodi dengan jumlah total mahasiswa di dalam ember tersebut.
