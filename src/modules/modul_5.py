@@ -1,7 +1,7 @@
 # modules/modul_5.py
 import time
 import random
-from bst import BSTNodeMhs
+from data_structures.bst import BSTNodeMhs
 
 PRODI = ["Elektro", "Informatika", "Sistem Informasi", "Teknik Komputer"]
 

@@ -1,12 +1,9 @@
 # main.py
 
-# Perbaikan Path: Menambahkan src.data_structures. di depannya
-from src.data_structures.bst import BSTMahasiswa
-from src.data_structures.stack_undo import Stack
-from src.data_structures.graph_dag import GraphPrereq
-
-# Mengimpor antarmuka baris perintah (CLI)
-from cli.py import run_cli 
+from data_structures.bst import BSTMahasiswa
+from data_structures.stack_undo import Stack
+from data_structures.graph_dag import GraphPrereq
+from data_structures.cli import run_cli
 
 # --- MODEL DATA DASAR ---
 class Mahasiswa:
@@ -45,7 +42,7 @@ def main():
     print(" MEMUAT SISTEM INFORMASI AKADEMIK TERPADU ")
     print("="*50)
     
-    # Inisialisasi struktur data dari nol (sesuai syarat dosen)
+    # Inisialisasi struktur data
     db_mahasiswa = BSTMahasiswa()
     history_stack = Stack()
     kurikulum_graph = GraphPrereq()

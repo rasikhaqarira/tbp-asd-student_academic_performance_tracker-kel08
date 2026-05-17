@@ -1,5 +1,5 @@
 # modules/modul_4.py
-from graph_dag import GraphPrereq
+from data_structures.graph_dag import GraphPrereq
 
 class ModulKurikulum:
     def __init__(self, graph_obj=None):

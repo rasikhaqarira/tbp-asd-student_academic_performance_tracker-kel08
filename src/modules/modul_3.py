@@ -1,5 +1,5 @@
 # modules/modul_3.py
-from stack_undo import Stack
+from data_structures.stack_undo import Stack
 
 class ModulUndo:
     def __init__(self, stack_obj=None):

@@ -1,5 +1,5 @@
 # modules/modul_2.py
-from bst import BSTMahasiswa
+from data_structures.bst import BSTMahasiswa
 
 class ModulDatabase:
     def __init__(self, database_obj=None):
