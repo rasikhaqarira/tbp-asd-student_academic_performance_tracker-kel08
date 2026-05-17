@@ -1,7 +1,7 @@
 from collections import deque
 
 class GraphPrereq:
-    def _init_(self):
+    def __init__(self):
         self.adj = {}
         self.in_degree = {}
         self.matkul = {}
