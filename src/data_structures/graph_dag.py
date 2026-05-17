@@ -1,42 +1,89 @@
-from collections import deque
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-class GraphPrereq:
+from src.data_structures.bst import BSTMahasiswa 
+from src.data_structures.graph_dag import GraphPrereq 
+from src.modules.modul_4 import ModulKurikulum 
+
+GRADE_MAP = {
+    "A": 4.0, "A-": 3.7, "B+": 3.3, "B": 3.0, "B-": 2.7,
+    "C+": 2.3, "C": 2.0, "D": 1.0, "E": 0.0
+}
+
+class MockNodeNilai:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+class MockTranskripsi:
     def __init__(self):
-        self.adj = {}
-        self.in_degree = {}
-        self.matkul = {}
+        self.head = None
 
-    def tambah_matkul(self, kode, nama=None):
-        if kode not in self.matkul:
-            self.matkul[kode] = nama if nama else kode
-        if kode not in self.adj:
-            self.adj[kode] = []
-        if kode not in self.in_degree:
-            self.in_degree[kode] = 0
+class MockMahasiswa:
+    def __init__(self, nim, nama, prodi, angkatan):
+        self.nim = nim
+        self.nama = nama
+        self.prodi = prodi
+        self.angkatan = angkatan
+        self.ipk = 0.0
+        self.transkripsi = MockTranskripsi()
 
-    def add_edge(self, u, v):
-        self.tambah_matkul(u)
-        self.tambah_matkul(v)
-        
-        if v not in self.adj[u]:
-            self.adj[u].append(v)
-            self.in_degree[v] += 1
+class MockNilaiMatkul:
+    def __init__(self, kode, nama, sks, grade, semester):
+        self.kode = kode          
+        self.nama = nama
+        self.sks = sks            
+        self.grade = grade        
+        self.semester = semester  
 
-    def topological_sort(self):
-        init_nodes = [u for u in self.in_degree if self.in_degree[u] == 0]
-        init_nodes.sort()
+    @property
+    def nilai_huruf(self):
+        return self.grade
+
+
+def test_topo_sort():
+    print("\n--- Testing Modul 4: Graph Topological Sort ---")
+    g = GraphPrereq()
+    mod4 = ModulKurikulum(g)
+    
+    g.add_edge("INF20112", "INF20214")
+    g.add_edge("INF20214", "INF30115")
+    
+    urutan = mod4.cek_urutan_matkul()
+    assert urutan == ["INF20112", "INF20214", "INF30115"]
+    print(f"Urutan Jalur Matkul: {' -> '.join(urutan)} | Status: PASSED")
+
+
+def test_prasyarat_kurikulum():
+    print("\n--- Testing Modul 4: Prasyarat Kelulusan Matkul ---")
+    bst = BSTMahasiswa()
+    g = GraphPrereq()
+    mod4 = ModulKurikulum(g)
+
+    g.add_edge("INF20112", "INF20214")
+
+    nim_test = "21007001"
+    m1 = MockMahasiswa(nim_test, "Budi", "INF", 2021)
+    
+    n1 = MockNilaiMatkul("INF20112", "Matematika Diskrit", 3, "B", 3)
+    m1.transkripsi.head = MockNodeNilai(n1)
+    
+    # Membajak metode search pada objek bst ini secara dinamis agar 
+    # mengembalikan objek tiruan yang membawa struktur transkripsi secara utuh
+    def mock_search(nim):
+        if nim == nim_test:
+            return m1
+        return None
         
-        queue = deque(init_nodes)
-        topo_order = []
-        temp_in_degree = self.in_degree.copy()
-        
-        while queue:
-            u = queue.popleft()
-            topo_order.append(u)
-            
-            for v in self.adj.get(u, []):
-                temp_in_degree[v] -= 1
-                if temp_in_degree[v] == 0:
-                    queue.append(v)
-                    
-        return topo_order
+    bst.search = mock_search
+
+    bisa_ambil, pesan = mod4.prasyarat_terpenuhi(bst, nim_test, "INF20214", GRADE_MAP)
+    
+    assert bisa_ambil == True
+    print(f"Pengecekan Akhir: {pesan} | Status: PASSED")
+
+
+if __name__ == "__main__":
+    test_topo_sort()
+    test_prasyarat_kurikulum()
