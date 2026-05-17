@@ -13,7 +13,7 @@ GRADE_MAP = {
 }
 
 class MockMahasiswa:
-    def _init_(self, nim, nama, prodi, angkatan):
+    def __init__(self, nim, nama, prodi, angkatan):
         self.nim = nim
         self.nama = nama
         self.prodi = prodi
@@ -22,7 +22,7 @@ class MockMahasiswa:
         self.transkripsi = None  
 
 class MockNilaiMatkul:
-    def _init_(self, kode, nama, sks, grade, semester):
+    def __init__(self, kode, nama, sks, grade, semester):
         self.kode = kode          
         self.nama = nama
         self.sks = sks            
@@ -77,6 +77,6 @@ def test_prasyarat_kurikulum():
     print(f"Pengecekan Akhir: {pesan} | Status: PASSED")
 
 
-if _name_ == "_main_":
+if __name__ == "__main__":
     test_topo_sort()
     test_prasyarat_kurikulum()
