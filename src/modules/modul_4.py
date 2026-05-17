@@ -12,8 +12,6 @@ class ModulKurikulum:
         if not node_mhs:
             return False, "Mahasiswa tidak ditemukan"
 
-        mhs = node_mhs.data if hasattr(node_mhs, 'data') else node_mhs
-
         prasyarat_list = []
         for asal, tujuan_list in self.graph.adj.items():
             if kode_mk in tujuan_list:
@@ -23,8 +21,7 @@ class ModulKurikulum:
             return True, "Bisa diambil (Tidak ada prasyarat)"
 
         nilai_mhs = {}
-       transkripsi_obj = getattr(mhs, 'transkripsi', None)
-        curr_nilai = transkripsi_obj.head if transkripsi_obj and hasattr(transkripsi_obj, 'head') else None
+          curr_nilai = node_mhs.transkripsi.head if hasattr(node_mhs, 'transkripsi') else None
 
         while curr_nilai:
             nilai_mhs[curr_nilai.data.kode] = curr_nilai.data.nilai_huruf
