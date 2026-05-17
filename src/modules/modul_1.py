@@ -1,4 +1,5 @@
-from src.data_structures.dll import TranskripNilai
+# modules/modul_1.py
+from data_structures.dll import TranskripNilai
 
 class ModulTranskrip:
     def __init__(self):

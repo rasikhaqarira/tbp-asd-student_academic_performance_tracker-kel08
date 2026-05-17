@@ -1,4 +1,5 @@
-from src.data_structures.bst import BSTMahasiswa
+# modules/modul_2.py
+from data_structures.bst import BSTMahasiswa
 
 class ModulDatabase:
     def __init__(self, database_obj=None):
@@ -18,8 +19,9 @@ class ModulDatabase:
             return self.db.get_inorder_list()
         return self.db.inorder()
 
-    def perbarui_ipk_mhs(self, nim, grade_map):
-        return self.db.update_ipk(nim, grade_map)
+    def perbarui_ipk_mhs(self, nim, grade_map=None):
+        # Disesuaikan dengan bst.py yang baru (tidak perlu melempar grade_map lagi)
+        return self.db.update_ipk(nim)
 
     def filter_berdasarkan_rentang_ipk(self, low, high):
         return self.db.range_ipk(low, high)

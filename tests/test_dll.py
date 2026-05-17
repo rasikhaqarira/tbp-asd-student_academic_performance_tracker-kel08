@@ -28,14 +28,15 @@ def test_kalkulasi_ipk():
     
     class MockMhs:
         def __init__(self): 
+            self.nim = "21006001" 
             self.ipk = 0.0
             self.transkripsi = None
     
     node = BSTNodeMhs(MockMhs())
     mod1 = ModulTranskrip()
     
-    n1 = NilaiMatkul("EL101", "Matkul A", 3, "A", 1)  # 4.0 * 3 = 12
-    n2 = NilaiMatkul("EL102", "Matkul B", 3, "B", 1)  # 3.0 * 3 = 9
+    n1 = NilaiMatkul("ELT60213", "Algoritma dan Struktur Data", 3, "A", 1)  
+    n2 = NilaiMatkul("INF10203", "Dasar Pemrograman", 3, "B", 1)             
     
     mod1.tambah_entri_nilai(node, n1, GRADE_MAP)
     ipk_akhir = mod1.tambah_entri_nilai(node, n2, GRADE_MAP)
