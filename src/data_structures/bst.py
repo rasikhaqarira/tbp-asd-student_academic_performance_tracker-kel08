@@ -15,7 +15,7 @@ class BSTMahasiswa:
 
     def insert(self, mhs):
         # Import dilakukan di sini untuk mencegah circular import
-        from dll import TranskripNilai 
+        from data_structures.dll import TranskripNilai 
         new_node = BSTNodeMhs(mhs)
         new_node.transkripsi = TranskripNilai() # Setiap mahasiswa baru otomatis punya transkrip kosong
         
@@ -64,7 +64,7 @@ class BSTMahasiswa:
     
     def update_ipk(self, nim):
         """Mencari node mahasiswa dan memicu hitung ulang IPK langsung dari DLL miliknya."""
-        from dll import GRADE_MAP
+        from data_structures.dll import GRADE_MAP
         node = self.search(nim)
         if node and node.transkripsi:
             ipk_baru = node.transkripsi.hitung_ipk(GRADE_MAP)
