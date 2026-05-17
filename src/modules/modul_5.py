@@ -1,16 +1,13 @@
+# modules/modul_5.py
 import time
 import random
-
-from src.data_structures.bst import BSTNodeMhs
-from src.data_structures.merge_sort import MergeSortDLL
-from src.data_structures.insertion_sort import InsertionSortDLL
+from bst import BSTNodeMhs
 
 PRODI = ["Elektro", "Informatika", "Sistem Informasi", "Teknik Komputer"]
 
 class ModulRankingSorting:
     def __init__(self):
-        self.merge_engine = MergeSortDLL()
-        self.insertion_engine = InsertionSortDLL()
+        pass
 
     def generate_mahasiswa(self, n=60): 
         random.seed(31)
@@ -48,11 +45,67 @@ class ModulRankingSorting:
         curr.right = None
         return head
 
+    # IMPLEMENTASI MERGE SORT (FROM SCRATCH) UNTUK DOUBLE LINKED LIST
     def merge_sort(self, head):
-        return self.merge_engine.sort(head)
+        if not head or not head.right:
+            return head
+        second = self._split(head)
+        head = self.merge_sort(head)
+        second = self.merge_sort(second)
+        return self._merge(head, second)
 
+    def _split(self, head):
+        fast = slow = head
+        while fast.right and fast.right.right:
+            fast = fast.right.right
+            slow = slow.right
+        temp = slow.right
+        slow.right = None
+        if temp: temp.left = None
+        return temp
+
+    def _merge(self, first, second):
+        if not first: return second
+        if not second: return first
+        if first.mhs.ipk >= second.mhs.ipk: # Urutan Descending (Ranking Tertinggi)
+            first.right = self._merge(first.right, second)
+            if first.right: first.right.left = first
+            first.left = None
+            return first
+        else:
+            second.right = self._merge(first, second.right)
+            if second.right: second.right.left = second
+            second.left = None
+            return second
+
+    # IMPLEMENTASI INSERTION SORT (FROM SCRATCH) UNTUK DOUBLE LINKED LIST
     def insertion_sort(self, head):
-        return self.insertion_engine.sort(head)
+        if not head or not head.right:
+            return head
+        sorted_head = None
+        curr = head
+        while curr:
+            next_node = curr.right
+            curr.left = curr.right = None
+            sorted_head = self._sorted_insert(sorted_head, curr)
+            curr = next_node
+        return sorted_head
+
+    def _sorted_insert(self, head, new_node):
+        if not head:
+            return new_node
+        if new_node.mhs.ipk >= head.mhs.ipk:
+            new_node.right = head
+            head.left = new_node
+            return new_node
+        curr = head
+        while curr.right and curr.right.mhs.ipk > new_node.mhs.ipk:
+            curr = curr.right
+        new_node.right = curr.right
+        if curr.right: curr.right.left = new_node
+        curr.right = new_node
+        new_node.left = curr
+        return head
 
     # ================= SIMULASI & DISTRIBUSI =================
     def jalankan_simulasi_nyata(self):
@@ -82,7 +135,6 @@ class ModulRankingSorting:
             print(f"{n:<6} | {t_merge:.7f} detik | {t_insert:.7f} detik")
             
         self.hitung_distribusi(data_mentah_1)
-            
         return hasil
 
     def hitung_distribusi(self, list_mahasiswa):

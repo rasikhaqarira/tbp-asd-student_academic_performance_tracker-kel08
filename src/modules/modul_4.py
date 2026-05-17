@@ -1,4 +1,5 @@
-from src.data_structures.graph_dag import GraphPrereq
+# modules/modul_4.py
+from graph_dag import GraphPrereq
 
 class ModulKurikulum:
     def __init__(self, graph_obj=None):
@@ -20,15 +21,12 @@ class ModulKurikulum:
         if not prasyarat_list:
             return True, "Bisa diambil (Tidak ada prasyarat)"
         
-        nilai_mhs = {}
-        
-        # Mengambil objek transkripsi secara aman dari node BST
-        transkripsi_obj = getattr(node_mhs, 'transkripsi', None)
-        curr_nilai = transkripsi_obj.head if transkripsi_obj and hasattr(transkripsi_obj, 'head') else None
-
-        while curr_nilai:
-            nilai_mhs[curr_nilai.data.kode] = curr_nilai.data.nilai_huruf
-            curr_nilai = curr_nilai.next
+        if not node_mhs.transkripsi:
+            return False, f"Belum mengambil matkul prasyarat: {prasyarat_list[0]}"
+            
+        # Perbaikan: Menggunakan fungsi semua_nilai() dari dll.py secara aman
+        semua_nilai = node_mhs.transkripsi.semua_nilai()
+        nilai_mhs = {nilai.kode_mk: nilai.grade for nilai in semua_nilai}
 
         grade_lulus = {"A", "A-", "B+", "B", "B-", "C+", "C"}
 

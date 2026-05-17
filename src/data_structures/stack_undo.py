@@ -1,85 +1,45 @@
-class LLNode:
-    def __init__(self, data=None):
+# stack_undo.py
+
+# Objek untuk menyimpan riwayat input nilai yang bisa dibatalkan (undo)
+class UndoRecord:
+    def __init__(self, nim, kode_mk):
+        self.nim = nim
+        self.kode_mk = kode_mk
+
+# Node khusus untuk Stack
+class StackNode:
+    def __init__(self, data):
         self.data = data
         self.next = None
 
-class DLLNode:
-    def __init__(self, data=None):
-        self.data = data
-        self.prev = None
-        self.next = None
-
-class TranskripNilai:
-    def __init__(self):
-        self.head = None
-        self.tail = None
-        self._size = 0
-
-    def tambah_nilai(self, nilai):
-        new_node = DLLNode(nilai)
-        if not self.head:
-            self.head = self.tail = new_node
-        else:
-            new_node.prev = self.tail
-            self.tail.next = new_node
-            self.tail = new_node
-        self._size += 1
-
-    def hapus_terakhir(self):
-        if not self.tail: return None
-        data = self.tail.data
-        if self.head == self.tail:
-            self.head = self.tail = None
-        else:
-            self.tail = self.tail.prev
-            self.tail.next = None
-        self._size -= 1
-        return data
-
-    def filter_semester(self, k):
-        res = []
-        curr = self.head
-        while curr:
-            if curr.data.semester == k:
-                res.append(curr.data)
-            curr = curr.next
-        return res
-
-    def hitung_ipk(self, grade_map):
-        if self._size == 0: return 0.0
-        total_points = 0.0
-        total_sks = 0
-        curr = self.head
-        while curr:
-            grade_val = grade_map.get(curr.data.grade, 0.0)
-            total_points += (grade_val * curr.data.sks)
-            total_sks += curr.data.sks
-            curr = curr.next
-        return round(total_points / total_sks, 2) if total_sks > 0 else 0.0
-
-    def __len__(self):
-        return self._size
+# Implementasi Stack dari nol (LIFO - Last In First Out)
 class Stack:
     def __init__(self):
         self.top = None
         self._size = 0
 
+    # Menambahkan data ke tumpukan paling atas
     def push(self, data):
-        class Node:
-            def __init__(self, d, n):
-                self.data = d
-                self.next = n
-        
-        new_node = Node(data, self.top)
+        new_node = StackNode(data)
+        new_node.next = self.top
         self.top = new_node
         self._size += 1
 
+    # Mengambil dan menghapus data dari tumpukan paling atas
     def pop(self):
-        if not self.top: return None
+        if not self.top: 
+            return None
         res = self.top.data
         self.top = self.top.next
         self._size -= 1
         return res
+        
+    # Hanya melihat data di tumpukan paling atas tanpa menghapusnya (Dibutuhkan oleh cli.py)
+    def peek(self):
+        if not self.top: 
+            return None
+        return self.top.data
 
+    # Mengecek apakah tumpukan kosong
     def is_empty(self):
         return self._size == 0

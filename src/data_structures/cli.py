@@ -1,11 +1,3 @@
-"""
-Modul CLI - Command Line Interface
-====================================
-Perintah: CARI_MHS, INPUT_NILAI, UNDO_NILAI, TRANSKRIPSI,
-          IPK, RANKING_IPK, FILTER_IPK, PRASYARAT_CEK,
-          URUTAN_MATKUL, KELUAR
-"""
-
 from dll import NilaiMatkul, GRADE_MAP
 from stack_undo import UndoRecord
 
@@ -50,19 +42,24 @@ def cmd_cari_mhs(bst, args):
     _info(f"IPK      : {m.ipk:.2f}")
 
 
-def cmd_input_nilai(bst, undo_stack, args):
+def cmd_input_nilai(bst, undo_stack, graph, args):
     if len(args) < 5:
         return _err("Penggunaan: INPUT_NILAI <nim> <kode> <sks> <grade> <sem>")
     nim, kode, sks_s, grade, sem_s = args
     try:
         sks, sem = int(sks_s), int(sem_s)
     except ValueError:
-        return _err("sks dan semester harus angka bulat.")
+        return _err("SKS dan semester harus angka bulat.")
+    
     node = bst.search(nim)
     if not node: return _err(f"NIM {nim} tidak ditemukan.")
     if grade not in GRADE_MAP:
         return _err(f"Grade '{grade}' tidak valid. Pilihan: {list(GRADE_MAP)}")
-    node.transkripsi.tambah_nilai(NilaiMatkul(kode, kode, sks, grade, sem))
+    
+    # Mengambil nama matkul dari graph, jika tidak ada pakai kodenya saja
+    nama_mk = graph.matkul.get(kode, kode)
+    
+    node.transkripsi.tambah_nilai(NilaiMatkul(kode, nama_mk, sks, grade, sem))
     ipk = bst.update_ipk(nim)
     undo_stack.push(UndoRecord(nim=nim, kode_mk=kode))
     _ok(f"Nilai {kode} (grade {grade}, {sks} sks, sem {sem}) ditambahkan.")
@@ -97,7 +94,9 @@ def cmd_transkripsi(bst, args):
     for nm in semua:
         print(f"  {nm.kode_mk:<12} {nm.nama_mk:<20} {nm.sks:>4} {nm.grade:>6} {nm.semester:>4}")
     print(_hr())
-    _info(f"IPK: {node.transkripsi.hitung_ipk():.2f}")
+    
+    from dll import GRADE_MAP
+    _info(f"IPK: {node.transkripsi.hitung_ipk(GRADE_MAP):.2f}")
 
 
 def cmd_ipk(bst, args):
@@ -107,22 +106,38 @@ def cmd_ipk(bst, args):
     _ok(f"IPK {args[0]} ({node.mhs.nama}): {node.mhs.ipk:.2f}")
 
 
+# Implementasi Merge Sort Manual dari Nol Sesuai Aturan PDF (Topik 8)
 def _merge_sort_ipk(data):
-    if len(data) <= 1: return data
+    if len(data) <= 1: 
+        return data
+    
     mid = len(data) // 2
-    L, R = _merge_sort_ipk(data[:mid]), _merge_sort_ipk(data[mid:])
-    hasil, i, j = [], 0, 0
+    L = _merge_sort_ipk(data[:mid])
+    R = _merge_sort_ipk(data[mid:])
+    
+    hasil = []
+    i = j = 0
+    
+    # Sort secara Descending (IPK Tertinggi di atas)
     while i < len(L) and j < len(R):
         if L[i].ipk >= R[j].ipk:
-            hasil.append(L[i]); i += 1
+            hasil.append(L[i])
+            i += 1
         else:
-            hasil.append(R[j]); j += 1
-    return hasil + L[i:] + R[j:]
+            hasil.append(R[j])
+            j += 1
+            
+    # Masukkan sisa elemen
+    hasil.extend(L[i:])
+    hasil.extend(R[j:])
+    return hasil
 
 
 def cmd_ranking_ipk(bst):
-    semua = bst.inorder()
+    # Menggunakan get_inorder_list agar yang di-sort adalah objek Mahasiswa, bukan Node
+    semua = bst.get_inorder_list()
     if not semua: return _err("Data kosong.")
+    
     terurut = _merge_sort_ipk(semua)
     _header("Ranking IPK")
     print(f"  {'No':>3}  {'NIM':<12} {'Nama':<20} {'Prodi':<20} {'IPK':>5}")
@@ -181,7 +196,6 @@ def run_cli(bst, undo_stack, graph) -> None:
             _tampil_menu()
             continue
 
-        # Izinkan input nomor menu
         menu_map = {
             '1': 'CARI_MHS', '2': 'INPUT_NILAI', '3': 'UNDO_NILAI',
             '4': 'TRANSKRIPSI', '5': 'IPK', '6': 'RANKING_IPK',
@@ -201,7 +215,7 @@ def run_cli(bst, undo_stack, graph) -> None:
         elif perintah == "CARI_MHS":
             cmd_cari_mhs(bst, args)
         elif perintah == "INPUT_NILAI":
-            cmd_input_nilai(bst, undo_stack, args)
+            cmd_input_nilai(bst, undo_stack, graph, args) # Tambahkan graph disini
         elif perintah == "UNDO_NILAI":
             cmd_undo_nilai(bst, undo_stack, args)
         elif perintah == "TRANSKRIPSI":
