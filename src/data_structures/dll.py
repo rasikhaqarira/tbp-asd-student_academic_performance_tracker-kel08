@@ -1,16 +1,16 @@
 class LLNode:
-    def _init_(self, data=None):
+    def __init__(self, data=None):
         self.data = data
         self.next = None
 
 class DLLNode:
-    def _init_(self, data=None):
+    def __init__(self, data=None):
         self.data = data
         self.prev = None
         self.next = None
 
 class TranskripNilai:
-    def _init_(self):
+    def __init__(self):
         self.head = None
         self.tail = None
         self._size = 0
@@ -57,7 +57,7 @@ class TranskripNilai:
             curr = curr.next
         return round(total_points / total_sks, 2) if total_sks > 0 else 0.0
 
-    def _len_(self):
+    def __len__(self):
         return self._size
     def _len_(self):
         return self._size
