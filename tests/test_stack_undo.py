@@ -1,16 +1,22 @@
 import sys
 import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
+# 1. ATUR RUTE (PATH) AGAR PYTHON BISA MEMBACA SEMUA JENIS IMPORT KELOMPOK ANDA
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+if PROJECT_ROOT not in sys.path:
+    sys.path.append(PROJECT_ROOT)
+
+SRC_PATH = os.path.join(PROJECT_ROOT, 'src')
+if SRC_PATH not in sys.path:
+    sys.path.append(SRC_PATH)
+
+# Import modul setelah path diatur dengan benar
 from src.data_structures.bst import BSTMahasiswa 
 from src.data_structures.stack_undo import Stack 
 from src.modules.modul_1 import ModulTranskrip 
 from src.modules.modul_3 import ModulUndo      
 
-<<<<<<< HEAD
-# Pakai GRADE_MAP manual agar tidak perlu import dari src.main yang bikin eror
-=======
->>>>>>> dev
+
 GRADE_MAP = {
     "A": 4.0, "A-": 3.7, "B+": 3.3, "B": 3.0, "B-": 2.7,
     "C+": 2.3, "C": 2.0, "D": 1.0, "E": 0.0
@@ -33,11 +39,6 @@ def test_undo_system():
             self.ipk = 0.0
             self.transkripsi = None  
             
-<<<<<<< HEAD
-    # 2. Mocking Class NilaiMatkul Lokal (Biar bebas eror parameter!)
-=======
-    # 2. Mocking Class NilaiMatkul Lokal
->>>>>>> dev
     class MockNilaiMatkul:
         def __init__(self, kode, nama, sks, grade, semester):
             self.kode = kode          
@@ -77,5 +78,6 @@ def test_undo_system():
     assert nim_hasil == nim_test
     
     print(f"Undo NIM {nim_hasil}: Berhasil (Aksi Dibatalkan) | Status: PASSED")
+
 if __name__ == "__main__":
     test_undo_system()

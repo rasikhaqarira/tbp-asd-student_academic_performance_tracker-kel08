@@ -1,88 +1,51 @@
-# Main.py
-import random
-import numpy as np
-
-from data_structures.bst import BSTMahasiswa, Mahasiswa
-from data_structures.dll import NilaiMatkul, GRADE_MAP
+# main.py
+from data_structures.bst import BSTMahasiswa
 from data_structures.stack_undo import Stack
 from data_structures.graph_dag import GraphPrereq
 from data_structures.cli import run_cli
 
-np.random.seed(31)
-random.seed(31)
+# --- MODEL DATA DASAR ---
+class Mahasiswa:
+    def __init__(self, nim, nama, prodi, angkatan):
+        self.nim = nim
+        self.nama = nama
+        self.prodi = prodi
+        self.angkatan = angkatan
+        self.ipk = 0.0
 
-PRODI = ['Teknik Elektro', 'Informatika', 'Mesin', 'Sipil', 'Kimia']
-GRADES = list(GRADE_MAP.keys())
-
-MK_LIST = [
-    ('ELT101', 'Matematika Dasar', 3),
-    ('ELT102', 'Fisika Dasar', 3),
-    ('ELT201', 'Rangkaian Listrik', 3),
-    ('ELT202', 'Elektronika', 3),
-    ('ELT301', 'Sistem Digital', 3),
-    ('INF101', 'Pemrograman Dasar', 3),
-    ('INF201', 'Struktur Data', 3),
-    ('INF301', 'Algoritma Lanjut', 3),
-    ('MES101', 'Mekanika Teknik', 3),
-    ('SIP101', 'Statika', 3),
-]
-
-
-def generate_mahasiswa(n=60):
-    mhs_list = []
-    for i in range(1, n + 1):
-        nim = f'21{i:08d}'
-        prodi = random.choice(PRODI)
-        angkatan = random.choice([2021, 2022, 2023])
-        mhs_list.append(Mahasiswa(nim=nim, nama=f'Mahasiswa-{i}',
-                                  prodi=prodi, angkatan=angkatan))
-    return mhs_list
-
-
-def generate_nilai(mhs, bst):
-    node = bst.search(mhs.nim)
-    if not node:
-        return
-    for sem in range(1, 3):
-        for kode, nama, sks in random.sample(MK_LIST, k=5):
-            grade = random.choice(GRADES)
-            node.transkripsi.tambah_nilai(
-                NilaiMatkul(kode_mk=kode, nama_mk=nama, sks=sks,
-                            grade=grade, semester=sem))
-    bst.update_ipk(mhs.nim)
-
-
-def setup_graph(graph):
-    for kode, nama, _ in MK_LIST:
-        graph.tambah_matkul(kode, nama)
-    for prasyarat, matkul in [
-        ('ELT101', 'ELT201'), ('ELT102', 'ELT201'),
-        ('ELT201', 'ELT202'), ('ELT202', 'ELT301'),
-        ('INF101', 'INF201'), ('INF201', 'INF301'),
-        ('ELT101', 'MES101'), ('MES101', 'SIP101'),
-    ]:
-        graph.tambah_prasyarat(matkul, prasyarat)
-
+def setup_data_awal(bst, graph):
+    """Fungsi untuk memasukkan data awal agar program tidak kosong saat diuji dosen."""
+    graph.tambah_matkul("ELT101", "Algoritma Pemrograman")
+    graph.tambah_matkul("ELT201", "Struktur Data")
+    graph.tambah_matkul("ELT301", "Kecerdasan Buatan")
+    
+    graph.add_edge("ELT101", "ELT201") 
+    graph.add_edge("ELT201", "ELT301") 
+    
+    mhs1 = Mahasiswa("21000001", "Andi Syahputra", "Teknik Elektro", 2021)
+    mhs2 = Mahasiswa("22000002", "Budi Santoso", "Teknik Elektro", 2022)
+    mhs3 = Mahasiswa("23000003", "Citra Kirana", "Teknik Elektro", 2023)
+    
+    bst.insert(mhs1)
+    bst.insert(mhs2)
+    bst.insert(mhs3)
+    print("[Sistem] Data awal (Dummy Data) berhasil dimuat!")
 
 def main():
-    print("=" * 50)
-    print("  MEMUAT SISTEM INFORMASI AKADEMIK TERPADU")
-    print("=" * 50)
+    print("="*50)
+    print(" MEMUAT SISTEM INFORMASI AKADEMIK TERPADU ")
+    print("="*50)
+    
+    db_mahasiswa = BSTMahasiswa()
+    history_stack = Stack()
+    kurikulum_graph = GraphPrereq()
+    
+    setup_data_awal(db_mahasiswa, kurikulum_graph)
+    
+    try:
+        run_cli(db_mahasiswa, history_stack, kurikulum_graph)
+    except Exception as e:
+        print(f"\n[Error] Terjadi kesalahan pada CLI: {e}")
 
-    bst = BSTMahasiswa()
-    undo_stack = Stack()
-    graph = GraphPrereq()
-
-    setup_graph(graph)
-
-    for mhs in generate_mahasiswa(60):
-        bst.insert(mhs)
-        generate_nilai(mhs, bst)
-
-    print("[Sistem] 60 data mahasiswa berhasil dimuat!")
-
-    run_cli(bst, undo_stack, graph)
-
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
