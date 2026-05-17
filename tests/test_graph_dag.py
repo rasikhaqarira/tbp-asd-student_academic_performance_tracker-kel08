@@ -27,7 +27,7 @@ class MockMahasiswa:
         self.prodi = prodi
         self.angkatan = angkatan
         self.ipk = 0.0
-        self.transkripsi = MockTranskripsi()  # Langsung beri objek transkripsi tiruan
+        self.transkripsi = MockTranskripsi()
 
 class MockNilaiMatkul:
     def __init__(self, kode, nama, sks, grade, semester):
@@ -65,22 +65,18 @@ def test_prasyarat_kurikulum():
 
     nim_test = "21007001"
     m1 = MockMahasiswa(nim_test, "Budi", "INF", 2021)
-    
-    # Memasukkan nilai Matematika Diskrit langsung ke linked list transkripsi secara manual
+
     n1 = MockNilaiMatkul("INF20112", "Matematika Diskrit", 3, "B", 3)
     m1.transkripsi.head = MockNodeNilai(n1)
     
-    # Masukkan m1 ke dalam BST
     bst.insert(m1)
     
-    # Ambil node hasil search, dan pastikan transkripsinya menempel di setiap layer (node utama & node.data)
     node = bst.search(nim_test)
     if node:
         node.transkripsi = m1.transkripsi
         if hasattr(node, 'data') and node.data:
             node.data.transkripsi = m1.transkripsi
 
-    # Jalankan pengujian prasyarat
     bisa_ambil, pesan = mod4.prasyarat_terpenuhi(bst, nim_test, "INF20214", GRADE_MAP)
     
     assert bisa_ambil == True
