@@ -1,0 +1,3 @@
+BST
+Prompt:
+Saya sedang mengerjakan proyek Student Academic Performance Tracker. Saat ini saya sudah mengimplementasikan Modul BST. Tolong bantu saya untuk: Memeriksa apakah logika insert dan cari_nim pada kode BST saya sudah memenuhi standar efisiensi O(log n)
