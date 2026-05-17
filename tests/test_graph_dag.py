@@ -19,6 +19,8 @@ class MockNodeNilai:
 class MockTranskripsi:
     def __init__(self):
         self.head = None
+    def semua_nilai(self):
+        return []
 
 class MockMahasiswa:
     def __init__(self, nim, nama, prodi, angkatan):
