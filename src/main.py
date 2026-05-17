@@ -1,9 +1,10 @@
 # main.py
 
+# cli.py (Paling atas)
+from data_structures.dll import NilaiMatkul, GRADE_MAP
 from data_structures.bst import BSTMahasiswa
 from data_structures.stack_undo import Stack
 from data_structures.graph_dag import GraphPrereq
-from data_structures.cli import run_cli
 
 # --- MODEL DATA DASAR ---
 class Mahasiswa:

@@ -1,5 +1,5 @@
-from dll import NilaiMatkul, GRADE_MAP
-from stack_undo import UndoRecord
+from data_structures.dll import NilaiMatkul, GRADE_MAP
+from data_structures.stack_undo import UndoRecord
 
 
 def _hr(char='─', w=60): return char * w
