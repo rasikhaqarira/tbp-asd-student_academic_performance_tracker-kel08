@@ -1,7 +1,7 @@
 from src.data_structures.graph_dag import GraphPrereq
 
 class ModulKurikulum:
-    def _init_(self, graph_obj=None):
+    def __init__(self, graph_obj=None):
         self.graph = graph_obj if graph_obj else GraphPrereq()
 
     def cek_urutan_matkul(self):
