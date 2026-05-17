@@ -1,1 +1,3 @@
-
+graph-dag
+Prompt:
+saya sedang mengerjakan projek Student Academic Performance Tracker apakah graph susunan saya sudah sesuai dengan teori dan implementasinya
