@@ -13,7 +13,7 @@ GRADE_MAP = {
 }
 
 class MockMahasiswa:
-    def _init_(self, nim, nama, prodi, angkatan):
+    def __init__(self, nim, nama, prodi, angkatan):
         self.nim = nim
         self.nama = nama
         self.prodi = prodi
@@ -22,7 +22,7 @@ class MockMahasiswa:
         self.transkripsi = None  
 
 class MockNilaiMatkul:
-    def _init_(self, kode, nama, sks, grade, semester):
+    def __init__(self, kode, nama, sks, grade, semester):
         self.kode = kode          
         self.nama = nama
         self.sks = sks            
@@ -37,7 +37,7 @@ class MockNilaiMatkul:
 def test_topo_sort():
     print("\n--- Testing Modul 4: Graph Topological Sort ---")
     g = GraphPrereq()
-    mod4 = ModulKurikulum()
+    mod4 = ModulKurikulum(g)
     
     g.add_edge("INF20112", "INF20214")
     g.add_edge("INF20214", "INF30115")
@@ -51,7 +51,7 @@ def test_prasyarat_kurikulum():
     print("\n--- Testing Modul 4: Prasyarat Kelulusan Matkul ---")
     bst = BSTMahasiswa()
     g = GraphPrereq()
-    mod4 = ModulKurikulum()
+    mod4 = ModulKurikulum(g)
     mod1 = ModulTranskrip()
 
     g.add_edge("INF20112", "INF20214")
