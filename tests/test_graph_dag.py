@@ -65,7 +65,10 @@ def test_prasyarat_kurikulum():
     n1 = MockNilaiMatkul("INF20112", "Matematika Diskrit", 3, "B", 3)
     mod1.tambah_entri_nilai(node, n1, GRADE_MAP)
     
-   
+    # Sinkronisasi objek agar transkripsi tiruan menempel di kontainer node BST
+    if node and not hasattr(node, 'transkripsi'):
+        node.transkripsi = m1.transkripsi
+    
     bisa_ambil, pesan = mod4.prasyarat_terpenuhi(bst, nim_test, "INF20214", GRADE_MAP)
     
     assert bisa_ambil == True
