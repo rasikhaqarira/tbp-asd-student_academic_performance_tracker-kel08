@@ -1,14 +1,31 @@
+# dll.py
+
+# Tambahan: Mapping nilai huruf ke bobot angka untuk perhitungan IPK
+GRADE_MAP = {'A': 4.0, 'A-': 3.7, 'B+': 3.3, 'B': 3.0, 'B-': 2.7, 'C+': 2.3, 'C': 2.0, 'D': 1.0, 'E': 0.0}
+
+# Tambahan: Kelas untuk merepresentasikan data mata kuliah mahasiswa
+class NilaiMatkul:
+    def __init__(self, kode_mk, nama_mk, sks, grade, semester):
+        self.kode_mk = kode_mk
+        self.nama_mk = nama_mk
+        self.sks = sks
+        self.grade = grade
+        self.semester = semester
+
+# Node dasar (Singly Linked List)
 class LLNode:
     def __init__(self, data=None):
         self.data = data
         self.next = None
 
+# Node untuk Doubly Linked List (Sesuai panduan untuk Transkrip)
 class DLLNode:
     def __init__(self, data=None):
         self.data = data
         self.prev = None
         self.next = None
 
+# Implementasi Doubly Linked List dari nol (From Scratch)
 class TranskripNilai:
     def __init__(self):
         self.head = None
@@ -45,6 +62,15 @@ class TranskripNilai:
             curr = curr.next
         return res
 
+    # Tambahan: Fungsi ini diperlukan oleh cli.py pada menu TRANSKRIPSI
+    def semua_nilai(self):
+        res = []
+        curr = self.head
+        while curr:
+            res.append(curr.data)
+            curr = curr.next
+        return res
+
     def hitung_ipk(self, grade_map):
         if self._size == 0: return 0.0
         total_points = 0.0
@@ -58,6 +84,4 @@ class TranskripNilai:
         return round(total_points / total_sks, 2) if total_sks > 0 else 0.0
 
     def __len__(self):
-        return self._size
-    def _len_(self):
         return self._size
