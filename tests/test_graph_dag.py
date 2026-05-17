@@ -37,7 +37,7 @@ class MockNilaiMatkul:
 def test_topo_sort():
     print("\n--- Testing Modul 4: Graph Topological Sort ---")
     g = GraphPrereq()
-    mod4 = ModulKurikulum(g)
+    mod4 = ModulKurikulum()
     
     g.add_edge("INF20112", "INF20214")
     g.add_edge("INF20214", "INF30115")
@@ -51,7 +51,7 @@ def test_prasyarat_kurikulum():
     print("\n--- Testing Modul 4: Prasyarat Kelulusan Matkul ---")
     bst = BSTMahasiswa()
     g = GraphPrereq()
-    mod4 = ModulKurikulum(g)
+    mod4 = ModulKurikulum()
     mod1 = ModulTranskrip()
 
     g.add_edge("INF20112", "INF20214")
