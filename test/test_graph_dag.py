@@ -1,19 +1,23 @@
 import sys
 import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(_file_), '..')))
 
-from src.data_structures.bst import BSTMahasiswa 
-from src.data_structures.graph_dag import GraphPrereq 
-from src.modules.modul_1 import ModulTranskrip 
-from src.modules.modul_4 import ModulKurikulum 
+# Memperbaiki typo __file__ (wajib double underscore)
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+# Memperbaiki kapitalisasi nama folder (Data_Structures & Modules)
+from src.Data_Structures.bst import BSTMahasiswa 
+from src.Data_Structures.graph_dag import GraphPrereq 
+from src.Modules.modul_1 import ModulTranskrip 
+from src.Modules.modul_4 import ModulKurikulum 
 
 GRADE_MAP = {
     "A": 4.0, "A-": 3.7, "B+": 3.3, "B": 3.0, "B-": 2.7,
     "C+": 2.3, "C": 2.0, "D": 1.0, "E": 0.0
 }
 
+# Memperbaiki dunder init menjadi __init__
 class MockMahasiswa:
-    def _init_(self, nim, nama, prodi, angkatan):
+    def __init__(self, nim, nama, prodi, angkatan):
         self.nim = nim
         self.nama = nama
         self.prodi = prodi
@@ -21,8 +25,9 @@ class MockMahasiswa:
         self.ipk = 0.0
         self.transkripsi = None  
 
+# Memperbaiki dunder init menjadi __init__
 class MockNilaiMatkul:
-    def _init_(self, kode, nama, sks, grade, semester):
+    def __init__(self, kode, nama, sks, grade, semester):
         self.kode = kode          
         self.nama = nama
         self.sks = sks            
@@ -77,6 +82,7 @@ def test_prasyarat_kurikulum():
     print(f"Pengecekan Akhir: {pesan} | Status: PASSED")
 
 
-if _name_ == "_main_":
+# Memperbaiki typo __name__ == "__main__" (wajib double underscore)
+if __name__ == "__main__":
     test_topo_sort()
     test_prasyarat_kurikulum()
