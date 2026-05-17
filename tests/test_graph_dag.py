@@ -20,7 +20,12 @@ class MockTranskripsi:
     def __init__(self):
         self.head = None
     def semua_nilai(self):
-        return []
+        hasil = []
+        curr = self.head
+        while curr:
+            hasil.append(curr.data)
+            curr = curr.next
+        return hasil
 
 class MockMahasiswa:
     def __init__(self, nim, nama, prodi, angkatan):
@@ -32,8 +37,8 @@ class MockMahasiswa:
         self.transkripsi = MockTranskripsi()
 
 class MockNilaiMatkul:
-    def __init__(self, kode, nama, sks, grade, semester):
-        self.kode = kode          
+    def __init__(self, kode_mk, nama, sks, grade, semester):
+        self.kode_mk = kode_mk        
         self.nama = nama
         self.sks = sks            
         self.grade = grade        
