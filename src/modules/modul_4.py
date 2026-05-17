@@ -22,6 +22,7 @@ class ModulKurikulum:
         
         nilai_mhs = {}
         
+        # Mengambil objek transkripsi secara aman dari node BST
         transkripsi_obj = getattr(node_mhs, 'transkripsi', None)
         curr_nilai = transkripsi_obj.head if transkripsi_obj and hasattr(transkripsi_obj, 'head') else None
 
