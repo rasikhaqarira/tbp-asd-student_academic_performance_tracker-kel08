@@ -77,6 +77,6 @@ def test_prasyarat_kurikulum():
     print(f"Pengecekan Akhir: {pesan} | Status: PASSED")
 
 
-if _name_ == "_main_":
+if __name__ == "__main__":
     test_topo_sort()
     test_prasyarat_kurikulum()
