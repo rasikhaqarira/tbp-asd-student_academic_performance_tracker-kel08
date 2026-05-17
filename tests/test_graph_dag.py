@@ -59,18 +59,19 @@ def test_prasyarat_kurikulum():
     nim_test = "21007001"
     m1 = MockMahasiswa(nim_test, "Budi", "INF", 2021)
     bst.insert(m1)
+    
     node = bst.search(nim_test)
     
     n1 = MockNilaiMatkul("INF20112", "Matematika Diskrit", 3, "B", 3)
     mod1.tambah_entri_nilai(node, n1, GRADE_MAP)
     
-    def mock_prasyarat_terpenuhi(bst_mhs, nim, kode_mk, grade_map_obj):
-        if node and kode_mk == "INF20214":
-            return True, "Semua prasyarat terpenuhi"
-        return False, "Belum mengambil matkul prasyarat: INF20112"
-        
-    mod4.prasyarat_terpenuhi = mock_prasyarat_terpenuhi
 
+    if node:
+        if hasattr(node, 'data') and node.data:
+            node.transkripsi = node.data.transkripsi
+        else:
+            node.transkripsi = m1.transkripsi
+    
     bisa_ambil, pesan = mod4.prasyarat_terpenuhi(bst, nim_test, "INF20214", GRADE_MAP)
     
     assert bisa_ambil == True
