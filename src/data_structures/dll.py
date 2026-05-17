@@ -59,3 +59,5 @@ class TranskripNilai:
 
     def __len__(self):
         return self._size
+    def _len_(self):
+        return self._size
