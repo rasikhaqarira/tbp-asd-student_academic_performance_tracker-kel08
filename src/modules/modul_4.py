@@ -19,9 +19,10 @@ class ModulKurikulum:
 
         if not prasyarat_list:
             return True, "Bisa diambil (Tidak ada prasyarat)"
-
         nilai_mhs = {}
-          curr_nilai = node_mhs.transkripsi.head if hasattr(node_mhs, 'transkripsi') else None
+        
+         transkripsi_obj = getattr(mhs, 'transkripsi', None)
+        curr_nilai = transkripsi_obj.head if transkripsi_obj and hasattr(transkripsi_obj, 'head') else None
 
         while curr_nilai:
             nilai_mhs[curr_nilai.data.kode] = curr_nilai.data.nilai_huruf
