@@ -2,6 +2,7 @@
 from data_structures.bst import BSTMahasiswa
 from data_structures.stack_undo import Stack
 from data_structures.graph_dag import GraphPrereq
+from data_structures.dll import GRADE_MAP
 from data_structures.cli import run_cli
 
 # --- MODEL DATA DASAR ---
@@ -19,7 +20,7 @@ def setup_data_awal(bst, graph):
     graph.tambah_matkul("ELT201", "Struktur Data")
     graph.tambah_matkul("ELT301", "Kecerdasan Buatan")
     graph.tambah_matkul("ELT401", "Basis Data")
-    graph.tambah_matkul("ELT402", "Jaringan Komputer")
+    graph.tambah_matkul("ELT402", "Aljabar dan Variabel Kompleks")
     graph.tambah_matkul("ELT403", "Pemrograman Web")
     
 
@@ -29,11 +30,11 @@ def setup_data_awal(bst, graph):
     graph.add_edge("ELT401", "ELT402")
     graph.add_edge("ELT401", "ELT403")
     
-    mhs1 = Mahasiswa("21000001", "Andi Syahputra", "Teknik Elektro", 2021)
-    mhs2 = Mahasiswa("22000002", "Budi Santoso", "Teknik Elektro", 2022)
-    mhs3 = Mahasiswa("23000003", "Citra Kirana", "Teknik Elektro", 2023)
-    mhs4 = Mahasiswa("24000004", "Dewi Lestari", "Informatika", 2024)
-    mhs5 = Mahasiswa("24000005", "Rizky Ramadhan", "Sistem Informasi", 2024)
+    mhs1 = Mahasiswa("25000001", "Andi Syahputra", "Teknik Elektro", 2021)
+    mhs2 = Mahasiswa("25000002", "Budi Santoso", "Teknik Elektro", 2022)
+    mhs3 = Mahasiswa("25000003", "Citra Kirana", "Teknik Elektro", 2023)
+    mhs4 = Mahasiswa("25000004", "Dewi Lestari", "Informatika", 2024)
+    mhs5 = Mahasiswa("25000005", "Rizky Ramadhan", "Sistem Informasi", 2024)
     
     bst.insert(mhs1)
     bst.insert(mhs2)

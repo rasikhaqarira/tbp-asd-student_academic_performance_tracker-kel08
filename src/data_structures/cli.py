@@ -14,20 +14,29 @@ def _header(t):
 
 def _tampil_menu() -> None:
     """Tampilkan menu utama CLI."""
-    print("\n" + _hr('='))
-    print("   ACADEMIC PERFORMANCE TRACKER")
-    print(_hr('='))
-    print("  [1]  CARI_MHS      <nim>")
-    print("  [2]  INPUT_NILAI   <nim> <kode> <sks> <grade> <sem>")
-    print("  [3]  UNDO_NILAI    <nim>")
-    print("  [4]  TRANSKRIPSI   <nim>")
-    print("  [5]  IPK           <nim>")
-    print("  [6]  RANKING_IPK")
-    print("  [7]  FILTER_IPK    <min> <max>")
-    print("  [8]  PRASYARAT_CEK <nim> <kode>")
-    print("  [9]  URUTAN_MATKUL")
-    print("  [0]  KELUAR")
-    print(_hr('='))
+
+    print("\n" + _hr('═'))
+    print("        ACADEMIC PERFORMANCE TRACKER")
+    print(_hr('═'))
+
+    print("  [1] Cari Mahasiswa")
+    print("  [2] Input Nilai Mahasiswa")
+    print("  [3] Undo Nilai")
+    print("  [4] Lihat Transkrip")
+    print("  [5] Hitung IPK")
+    print("  [6] Ranking IPK")
+    print("  [7] Filter IPK")
+    print("  [8] Cek Prasyarat Mata Kuliah")
+    print("  [9] Urutan Mata Kuliah")
+    print("  [0] Keluar")
+
+
+    print("  Keterangan:")
+    print("  Pilih menu menggunakan ANGKA lalu tekan ENTER")
+    print("  Contoh: ketik 1 untuk Cari Mahasiswa")
+    print(_hr('─'))
+
+    print(_hr('═'))
 
 
 def cmd_cari_mhs(bst, args):
@@ -81,21 +90,21 @@ def cmd_undo_nilai(bst, undo_stack, args):
     _ok(f"Nilai {hapus.kode_mk} (grade {hapus.grade}) di-undo dari {nim}.")
     _ok(f"IPK terbaru: {node.mhs.ipk:.2f}")
 
-
 def cmd_transkripsi(bst, args):
-    if len(args) < 1: return _err("Penggunaan: TRANSKRIPSI <nim>")
+    if len(args) < 1:
+        return _err("Penggunaan: TRANSKRIPSI <nim>")
     node = bst.search(args[0])
-    if not node: return _err(f"NIM {args[0]} tidak ditemukan.")
+    if not node:
+        return _err(f"NIM {args[0]} tidak ditemukan.")
     semua = node.transkripsi.semua_nilai()
     _header(f"Transkrip – {args[0]} ({node.mhs.nama})")
-    if not semua: return _info("(kosong)")
+    if not semua:
+        return _info("(kosong)")
     print(f"  {'Kode':<12} {'MK':<20} {'SKS':>4} {'Grade':>6} {'Sem':>4}")
     print(_hr())
     for nm in semua:
         print(f"  {nm.kode_mk:<12} {nm.nama_mk:<20} {nm.sks:>4} {nm.grade:>6} {nm.semester:>4}")
     print(_hr())
-    
-    from dll import GRADE_MAP
     _info(f"IPK: {node.transkripsi.hitung_ipk(GRADE_MAP):.2f}")
 
 
@@ -183,54 +192,74 @@ def cmd_urutan_matkul(graph):
 
 def run_cli(bst, undo_stack, graph) -> None:
     """Loop utama CLI."""
-    _tampil_menu()
-
     while True:
+        _tampil_menu()
         try:
-            raw = input("\n>> ").strip()
+            pilihan = input("\nPilih menu : ").strip()
+
         except (EOFError, KeyboardInterrupt):
-            print("\nKeluar.")
+            print("\nProgram dihentikan.")
             break
 
-        if not raw:
-            _tampil_menu()
-            continue
-
-        menu_map = {
-            '1': 'CARI_MHS', '2': 'INPUT_NILAI', '3': 'UNDO_NILAI',
-            '4': 'TRANSKRIPSI', '5': 'IPK', '6': 'RANKING_IPK',
-            '7': 'FILTER_IPK', '8': 'PRASYARAT_CEK', '9': 'URUTAN_MATKUL',
-            '0': 'KELUAR',
-        }
-        parts = raw.split()
-        if parts[0] in menu_map:
-            parts[0] = menu_map[parts[0]]
-
-        perintah = parts[0].upper()
-        args = parts[1:]
-
-        if perintah == "KELUAR":
-            print("  Sampai jumpa!")
+        if pilihan == "0":
+            print("\nTerima kasih.")
             break
-        elif perintah == "CARI_MHS":
-            cmd_cari_mhs(bst, args)
-        elif perintah == "INPUT_NILAI":
-            cmd_input_nilai(bst, undo_stack, graph, args) # Tambahkan graph disini
-        elif perintah == "UNDO_NILAI":
-            cmd_undo_nilai(bst, undo_stack, args)
-        elif perintah == "TRANSKRIPSI":
-            cmd_transkripsi(bst, args)
-        elif perintah == "IPK":
-            cmd_ipk(bst, args)
-        elif perintah == "RANKING_IPK":
+
+        elif pilihan == "1":
+            nim = input("Masukkan NIM : ")
+
+            cmd_cari_mhs(bst, [nim])
+
+        elif pilihan == "2":
+            nim = input("Masukkan NIM            : ")
+            kode = input("Masukkan Kode MK        : ")
+            sks = input("Masukkan Jumlah SKS     : ")
+            grade = input("Masukkan Grade          : ")
+            semester = input("Masukkan Semester       : ")
+
+            args = [nim, kode, sks, grade, semester]
+
+            cmd_input_nilai(bst, undo_stack, graph, args)
+
+        elif pilihan == "3":
+            nim = input("Masukkan NIM : ")
+
+            cmd_undo_nilai(bst, undo_stack, [nim])
+
+        elif pilihan == "4":
+            nim = input("Masukkan NIM : ")
+
+            cmd_transkripsi(bst, [nim])
+
+        elif pilihan == "5":
+            nim = input("Masukkan NIM : ")
+
+            cmd_ipk(bst, [nim])
+
+        elif pilihan == "6":
+
+            print("\n" + _hr('═'))
+            print("             RANKING IPK")
+            print(_hr('═'))
+
             cmd_ranking_ipk(bst)
-        elif perintah == "FILTER_IPK":
-            cmd_filter_ipk(bst, args)
-        elif perintah == "PRASYARAT_CEK":
-            cmd_prasyarat_cek(bst, graph, args)
-        elif perintah == "URUTAN_MATKUL":
+
+        elif pilihan == "7":
+            min_ipk = input("Masukkan IPK Minimum : ")
+            max_ipk = input("Masukkan IPK Maximum : ")
+
+            cmd_filter_ipk(bst, [min_ipk, max_ipk])
+
+        elif pilihan == "8":
+            nim = input("Masukkan NIM           : ")
+            kode = input("Masukkan Kode MK       : ")
+
+            cmd_prasyarat_cek(bst, graph, [nim, kode])
+
+        elif pilihan == "9":
             cmd_urutan_matkul(graph)
         else:
-            _err(f"Perintah '{perintah}' tidak dikenal.")
+            _err("Menu tidak tersedia.")
+            
 
-        _tampil_menu()
+        input("\nTekan ENTER untuk kembali ke menu...")
