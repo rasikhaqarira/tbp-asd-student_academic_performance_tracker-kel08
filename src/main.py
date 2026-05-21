@@ -18,17 +18,28 @@ def setup_data_awal(bst, graph):
     graph.tambah_matkul("ELT101", "Algoritma Pemrograman")
     graph.tambah_matkul("ELT201", "Struktur Data")
     graph.tambah_matkul("ELT301", "Kecerdasan Buatan")
+    graph.tambah_matkul("ELT401", "Basis Data")
+    graph.tambah_matkul("ELT402", "Jaringan Komputer")
+    graph.tambah_matkul("ELT403", "Pemrograman Web")
     
-    graph.add_edge("ELT101", "ELT201") 
-    graph.add_edge("ELT201", "ELT301") 
+
+    graph.add_edge("ELT101", "ELT201")
+    graph.add_edge("ELT201", "ELT301")
+    graph.add_edge("ELT201", "ELT401")
+    graph.add_edge("ELT401", "ELT402")
+    graph.add_edge("ELT401", "ELT403")
     
     mhs1 = Mahasiswa("21000001", "Andi Syahputra", "Teknik Elektro", 2021)
     mhs2 = Mahasiswa("22000002", "Budi Santoso", "Teknik Elektro", 2022)
     mhs3 = Mahasiswa("23000003", "Citra Kirana", "Teknik Elektro", 2023)
+    mhs4 = Mahasiswa("24000004", "Dewi Lestari", "Informatika", 2024)
+    mhs5 = Mahasiswa("24000005", "Rizky Ramadhan", "Sistem Informasi", 2024)
     
     bst.insert(mhs1)
     bst.insert(mhs2)
     bst.insert(mhs3)
+    bst.insert(mhs4)
+    bst.insert(mhs5)
     print("[Sistem] Data awal (Dummy Data) berhasil dimuat!")
 
 def main():
